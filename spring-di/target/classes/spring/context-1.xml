@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 
+		스프링 빈 설정파일에 생성할 객체 정보 설정하기 / 조립하기
+	 -->
+	 <bean id="userController" class="com.sample.controller.UserController">
+	 	<property name="userOracleDao" ref="userDao"></property>
+	 </bean>
+	 
+	 <bean id="orderController" class="com.sample.controller.OrderController">
+	 	<property name="orderOracleDao" ref="orderDao"></property>
+	 	<property name="userOracleDao" ref="userDao"></property>
+	 </bean>
+	 
+	 <bean id="userDao" class="com.sample.dao.UserOracleDao"></bean>
+	 <bean id="orderDao" class="com.sample.dao.OrderOracleDao"></bean>
+
+</beans>

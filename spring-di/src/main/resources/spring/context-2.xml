@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<!-- 
+		<context:property-placeholder />
+			location 속성으로 지정된 properties 파일을 읽어오는 객체가 스프링컨테이너 안에 추가된다.
+			스프링 빈 환경설정파일에서 ${} 표현식을 사용해서 값을 사용할 수 있다.
+	 -->
+	<context:property-placeholder location="classpath:spring/app.properties"/>
+	
+	<!-- 
+		Setter 메소드를 이용하는 생성자 주입 - <property /> 태그를 사용한다.
+		처리 순서
+			1. 객체 생성 및 기본 생성자 메소드 실행
+				PostController x = New PostController() 을 실행해서 객체 생성
+			2. setter 메소드를 실행해서 의존성 주입
+				x.setSaveDirectory("c:files")
+				x.setMaxUploadSize(10485760)
+				x.setPostDao(postMySQLDao)
+	 -->
+	<bean id="postController" class="com.sample.post.controller.PostController">
+		<!-- 
+			<property name="postDao" ref="postOracleDao">ao) 메소드의 매개변수로 빈의 아이디가 "postOracleDao"인 객체를 전달(주입)한다.
+							</property>
+				PostController의 setPostDao(PostDao postD
+		 -->
+		 
+		 <!-- 
+		 	ref="조립할 대상의 bean id"를 입력하면 그 조립할 대상안에 있는 객체들이 조립된다.
+		  -->
+		<property name="saveDirectory" value="${file.save.directory}"></property>
+		<property name="maxUploadSize" value="${file.max.uploadsize}"></property>
+		<property name="postDao" ref="postMySQLDao"></property>
+	</bean>
+
+	<!-- 
+		생성자 메소드를 이용해서 의존성 주입 - <constructor-arg /> 태그를 사용한다.
+			<constructor-arg /> 태그는 생성자 메소드의 매개변수와 대응되는 태그다.
+			생성자 메소드에 매개변수가 2개다 -> <constructor-arg /> 태그를 2개 정의한다.
+			생성자 메소드에 매개변수가 3개다 -> <constructor-arg /> 태그를 3개 정의한다.
+		처리 순서
+			1. 객체를 생성하고, <constructor-arg /> 태그 갯수와 매개변수 객수가 일치하는 생성자 메소드를 실행한다.
+				productController x = new ProductController(productOracleDao, postMySQLDao);
+	 -->
+	<bean id="productController" class="com.sample.post.controller.ProductController">
+		<constructor-arg name="productDao" ref="productOracleDao"></constructor-arg>
+		<constructor-arg name="postDao" ref="postMySQLDao"></constructor-arg>
+	</bean>
+	
+	<!-- 조립할 대상을 여기 아래에 추가한다. -->
+	<bean id="postOracleDao" class="com.sample.post.dao.PostOracleDao"></bean>
+	<bean id="postMySQLDao" class="com.sample.post.dao.PostMySQLDao"></bean>
+	<bean id="productOracleDao" class="com.sample.post.dao.ProductOracleDao"></bean>
+</beans>

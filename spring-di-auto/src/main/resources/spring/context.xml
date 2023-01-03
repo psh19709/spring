@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:property-placeholder location="classpath:spring/app.properties"/>
+	<!-- 
+		<context:annotation-config/>
+			- 스프링 컨테이너가 생성한 객체에 정의된 아래와 같은 이노테이션을 감지해서 
+				해당 이노테이션에 대한 적절한 작업을 수행하는 객체를 스프링 컨테이너의 빈(객체)으로 등록시킨다. 
+			- 해당 어노테이션
+			**	@Autowired			- 의존성 자동주입을 지원한다.
+				@PostConstruct		- 스프링 컨테이너가 객체 생성 후 실행할 초기화 작업이 구현된 메소드에 부착한다. 
+				@PreDestroy		 	- 스프링 컨테이너가 생성한 객체를 폐기하기 전에 실행할 작업이 구현된 메소드에 부착한다.
+			**	@Transactional		- 선언적 트랜잭션처리를 지원한다.
+	 -->
+	<context:annotation-config/>
+	
+	<!-- 
+		<context:component-scan />
+			- base-package="패키지경로" 지정된 패키지 및 그 하위 패키지에서 아래의 어노테이션이 부착된 클래스를 전부 스캔해서
+				스프링 컨테이너가 객체를 생성하고, 스프링 컨테이너의 빈으로 등록한다.
+			- 해당 어노테이션
+				@Component 				- 아래의 모든 어노테이션의 부모 어노테이션이다. 
+										이 어노테이션을 상속받아서 사용자 정의 어노테이션을 정의하면, 그 어노테이션 붙은 클래스도 스캔 대상이 된다.
+				@Repository 			- 데이터베이스 엑세스 작업을 담당하는 객체에 부착한다.
+				@Service 				- 비즈니스 로직 수행을 담당하는 객체에 부착한다. 
+				@Controller 			- HTTP 요청을 처리하는 컨트롤러 객체에 부착한다.
+				@RestController			- Rest API를 담당하는 컨트롤러 객체에 부착한다.
+				@ControllerAdvice 		- Controller 객체의 공통기능을 담당하는 객체에 부착한다.
+				@RestControllerAdvice	- RestController 객체의 공통기능을 담당하는 객체에 부착한다.
+				@Configuration			- Java 기반 빈 설정을 담당하는 객체에 부착한다.
+	 -->
+	<context:component-scan base-package="com.sample"></context:component-scan>
+</beans>

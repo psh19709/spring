@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- 프로젝트 정보 -->
+	<groupId>com.sample</groupId>
+	<artifactId>spring-di</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	
+	<!-- pom.xml 파일에서 사용되는 프로퍼티값(상수값)을 설정한다. -->
+	<properties>
+		<!-- 프로젝트의 자바버전을 정의한다. -->
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<!-- 
+			로그출력을 지원하는 slf4j 라이프러리의 버전정보를 상수로 정의한다. 
+			<version>${slf4j.version}</version>와 같이 ${} 형식으로 값을 사용할 수 있다.
+		-->
+		<slf4j.version>1.7.25</slf4j.version>
+	</properties>
+	
+	<!-- 프로젝트의 의존성 라이브러리를 정의한다. -->
+	<dependencies>
+		<!-- 
+			spring-context 라이브러리 의존성 정의 
+			spring-context 라이브러리 의존성은 spring-core, spring-beans, spring-aop, spring-expression 라이브러리도 포함한다.
+			* 스프링을 이용해서 객체 생성, 의존성 주입, 관점지향 프로그래밍 실습이 가능하다.
+		-->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.24</version>
+		</dependency>
+		<!-- 
+			로그 출력을 지원하는 라이브러리 의존성 정의
+		 -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+	</dependencies>
+</project>
