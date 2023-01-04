@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sample.mapper.PostMapper">
+
+	<!-- 
+		void deletePosts(@Param("numbers") List<Integer> numbers);
+		
+		Mapper 인터페이스에 @Param 어노테이션으로 parameter가 지정되어 있기 때문에
+		SQL 매핑시 parameterType은 생략한다.
+	 -->
+	<delete id="deletePosts">
+		delete from 
+			web_posts
+		where
+			post_no in
+			<foreach collection="numbers" item="num" open="(" close=")" separator=",">
+				#{num}
+			</foreach>
+	</delete>
+
+	<select id="getPosts" parameterType="map" resultType="Post">
+		select
+			post_no				as no,
+			post_title			as title,
+			post_user_id		as userId,
+			post_content		as content,
+			post_read_count		as readCount,
+			post_comment_count	as commentCount,
+			post_deleted		as deleted,
+			post_created_date	as createdDate,
+			post_updated_date	as updatedDate
+		from 
+			web_posts
+		<where>
+			<if test="deleted != null">
+				post_deleted = #{deleted}
+			</if>
+			<if test="userId != null">
+				and post_user_id = #{userId}
+			</if>
+			<choose>
+				<when test="opt == 'title'">
+					and post_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="opt == 'writer'">
+					and post_user_id in (select
+											user_id
+										from
+											web_users
+										where
+											user_name = #{keyword})
+				</when>
+				<when test="opt == 'content'">
+					and post_content like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</where>
+		order by
+			post_no desc
+	</select>
+ 
+</mapper>
