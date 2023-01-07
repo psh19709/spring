@@ -38,5 +38,26 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#form-register").submit(function(){
+		let id = $("#form-register :input[name=id]").val();
+		let password = $("form-register : input[name=password]").val();
+		
+		if(id == ""){
+			alert("아이디는 필수입력 값입니다.");
+			return false;
+		}
+		if(password == ""){
+			alert("비밀번호는 필수입력 값입니다.");
+			return false;
+		}
+	});
+	
+	
+})
+
+
+</script>
 </body>
 </html>

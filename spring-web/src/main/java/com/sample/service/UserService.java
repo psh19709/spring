@@ -1,9 +1,12 @@
 package com.sample.service;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sample.dto.UserDetailDto;
 import com.sample.exception.ApplicationException;
 import com.sample.mapper.UserMapper;
 import com.sample.mapper.UserRoleMapper;
@@ -42,8 +45,34 @@ public class UserService {
 		userRoleMapper.insertUserRole(userRole);
 	}
 	
-	public void login(String userId, String password) {
+	public User login(String userId, String password) {
+		User savedUser = userMapper.getUserById(userId);
+		if(savedUser == null) {
+			throw new ApplicationException("아이디 혹은 비밀번호가 올바르지 않습니다.");
+		}
+		if("Y".equals(savedUser.getDeleted())) {
+			throw new ApplicationException("탈퇴처리된 사용자 계정으로 로그인 할 수 없습니다.");
+		}
+		if(!savedUser.getPassword().equals(password)) {
+			throw new ApplicationException("아이디 혹은 비밀번호가 올바르지 않습니다.");
+		}
+		return savedUser;
+	}
+	
+	public UserDetailDto getUserDetail(String userId) {
+		// 사용자 정보 조회
+		User user = userMapper.getUserById(userId);
+		// 사용자의 권한 정보 조회
+		List<UserRole> userRoles = userRoleMapper.getUserRolesByUserId(userId);
+
+		// 사용자정보와 권한정보를 모두 저장하는 UserDetailDto 객체생성
+		UserDetailDto userDetailDto = new UserDetailDto();
+		// User객체의 값을 UserDetailDto 객체로 복사하기
+		BeanUtils.copyProperties(user, userDetailDto);
+		//사용자권한정보를 UserDetailDto 객체에 저장하기
+		userDetailDto.setUserRoles(userRoles);
 		
+		return userDetailDto;
 	}
 	
 	public void changePassword(String userId, String oldPassword, String password) {
