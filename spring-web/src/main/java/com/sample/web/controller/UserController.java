@@ -1,15 +1,18 @@
 package com.sample.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sample.dto.UserDetailDto;
-import com.sample.exception.ApplicationException;
 import com.sample.service.UserService;
 import com.sample.utils.SessionUtils;
+import com.sample.web.login.LoginUser;
 import com.sample.web.login.LoginUserInfo;
 
 @Controller
@@ -21,17 +24,53 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("/info")
-	public String info(Model model) {
-		
-		LoginUserInfo loginUserInfo = (LoginUserInfo)SessionUtils.getAttribute("loginUser");
-		if(loginUserInfo == null) {
-			throw new ApplicationException("로그인 정보가 존재하지 않습니다.");
-		}
+	public String info(@LoginUser LoginUserInfo loginUserInfo, Model model) {
 		
 		UserDetailDto userDetailDto = userService.getUserDetail(loginUserInfo.getId());
 		model.addAttribute("user", userDetailDto);
 		
 		return"user/detail";
 	}
+	
+	@GetMapping("/delete")
+	@LoginUser
+	public String deleteform() {
+		return "user/delete-form";		//회원탈퇴화면 이름을 반환한다. /WEB-INF/views/user/delete-form.jsp
+	}
 
+	@PostMapping("/delete")
+	public String delete(@LoginUser LoginUserInfo loginUserInfo, String password) {
+		// 탈퇴처리된 업무로직을 호출한다.
+		userService.deleteUser(loginUserInfo.getId(), password);
+		// 세션객체에 저장된 로그인정보를 삭제한다.
+		SessionUtils.removeAttribute("loginUser");
+		
+		return "redirect:delete-success";	// 회원탈퇴 성공화면을 재요청하는 URL을 반환한다.
+	}
+	
+	@GetMapping("/delete-success")
+	public String deleteSuccess() {
+		return "user/delete-success";		// 회원탈퇴성공화면의 이름을 반환한다. /WEB-INF/views/user/delete-success.jsp
+	}
+	
+	@GetMapping("/password")
+	@LoginUser
+	public String passwordChangeForm() {
+		return "user/password-form";
+	}
+	
+	@PostMapping("/password")
+	public String changePassword(@LoginUser LoginUserInfo loginUserInfo, 
+			@RequestParam(name = "oldPassword") String oldPassword,
+			@RequestParam(name = "password") String password) {
+		
+		userService.changePassword(loginUserInfo.getId(), oldPassword, password);
+		
+		return "redirect:password-success";
+	}
+	
+	@GetMapping("/password-success")
+	public String passwordChangeSuccess() {
+		return "user/password-success";
+	}
 }

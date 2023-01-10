@@ -24,6 +24,6 @@ public class ExceptionHandlerControllerAdvice {
 	@ExceptionHandler(RuntimeException.class)
 	public String handleApplicationException(RuntimeException ex) {
 		ex.printStackTrace();
-		return "error/server";
+		return "error/500";
 	}
 }

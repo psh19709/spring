@@ -76,11 +76,34 @@ public class UserService {
 	}
 	
 	public void changePassword(String userId, String oldPassword, String password) {
+		User user = userMapper.getUserById(userId);
+		if(user == null) {
+			throw new ApplicationException("사용자 정보가 존재하지 않아서 비밀번호를 변경할 수 없습니다..");
+		}
+		if("Y".equals(user.getDeleted())) {
+			throw new ApplicationException("이미 탈퇴처리된 사용자는 비밀번호를 변경할 수 없습니다.");
+		}
+		if(!user.getPassword().equals(oldPassword)) {
+			throw new ApplicationException("이전 비밀번호가 일치하지 않아서 비밀번호를 변경할 수 없습니다.");
+		}
 		
+		user.setPassword(password);
+		userMapper.updateUser(user);
 	}
 	
-	public void deleteUser(String userId) {
-		
+	public void deleteUser(String userId, String password) {
+		User user = userMapper.getUserById(userId);
+		if(user == null) {
+			throw new ApplicationException("사용자 정보가 존재하지 않습니다.");
+		}
+		if("Y".equals(user.getDeleted())) {
+			throw new ApplicationException("이미 탈퇴처리된 사용자입니다.");
+		}
+		if(!user.getPassword().equals(password)) {
+			throw new ApplicationException("비밀번호가 일치하지 않아서 탈퇴처리할 수 없습니다.");
+		}
+		user.setDeleted("Y");
+		userMapper.updateUser(user);
 	}
 	
 	public void addUserRole(UserRole userRole) {
