@@ -18,7 +18,7 @@ public class ExceptionHandlerControllerAdvice {
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDataAccessException(DataAccessException ex) {
 		ex.printStackTrace();
-		return "error/db";
+		return "error/500";
 	}
 
 	@ExceptionHandler(RuntimeException.class)
