@@ -55,4 +55,10 @@ public class PostRegisterForm {
 		this.filename = filename;
 	}
 
+	@Override
+	public String toString() {
+		return "PostRegisterForm [title=" + title + ", content=" + content + ", upfile=" + upfile + ", tags=" + tags
+				+ ", filename=" + filename + "]";
+	}
+	
 }

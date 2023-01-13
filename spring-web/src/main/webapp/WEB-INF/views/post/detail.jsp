@@ -52,6 +52,36 @@
 						<td><fmt:formatDate value="${post.updatedDate }" /></td>
 					</tr>
 					<tr>
+						<th>첨부파일</th>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${empty post.attachedFiles }">
+									등록된 첨부파일이 없습니다.
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="file" items="${post.attachedFiles }">
+										<a href="download?fileName=${file.fileName } " class="btn btn-outline-dark btn-sm">${file.fileName } <i class="bi bi-download ms-2"></i></a>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th>태그</th>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${empty post.tags }">
+									등록된 태그가 없습니다.
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="tag" items="${post.tags }">
+										<span class="badge text-bg-secondary">#${tag.content }</span>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
 						<th>조회수</th>
 						<td>${post.readCount }</td>
 						<th>댓글수</th>

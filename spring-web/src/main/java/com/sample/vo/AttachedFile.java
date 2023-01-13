@@ -5,13 +5,13 @@ import org.apache.ibatis.type.Alias;
 @Alias("AttachedFile")
 public class AttachedFile {
 
-	private int postno;
+	private int postNo;
 	private String fileName;
 	public int getPostno() {
-		return postno;
+		return postNo;
 	}
-	public void setPostno(int postno) {
-		this.postno = postno;
+	public void setPostno(int postNo) {
+		this.postNo = postNo;
 	}
 	public String getFileName() {
 		return fileName;

@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import com.sample.vo.AttachedFile;
+import com.sample.vo.Tag;
+
 @Alias("PostDetailDto")
 public class PostDetailDto {
 
@@ -17,7 +20,12 @@ public class PostDetailDto {
 	private Date createdDate;
 	private Date updatedDate;
 	private String content;
+	// 댓글 정보
 	private List<PostCommentListDto> comments;
+	// 첨부파일 정보
+	private List<AttachedFile> attachedFiles;
+	// 태그 정보
+	private List<Tag> tags;
 	
 	public int getNo() {
 		return no;
@@ -78,6 +86,18 @@ public class PostDetailDto {
 	}
 	public void setComments(List<PostCommentListDto> comments) {
 		this.comments = comments;
+	}
+	public List<AttachedFile> getAttachedFiles() {
+		return attachedFiles;
+	}
+	public void setAttachedFiles(List<AttachedFile> attachedFiles) {
+		this.attachedFiles = attachedFiles;
+	}
+	public List<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 	
 }
