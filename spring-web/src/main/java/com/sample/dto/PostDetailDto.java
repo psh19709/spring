@@ -17,6 +17,7 @@ public class PostDetailDto {
 	private String userName;
 	private int readCount;
 	private int commentCount;
+	private String deleted;
 	private Date createdDate;
 	private Date updatedDate;
 	private String content;
@@ -62,6 +63,12 @@ public class PostDetailDto {
 	}
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
+	}
+	public String getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
 	}
 	public Date getCreatedDate() {
 		return createdDate;

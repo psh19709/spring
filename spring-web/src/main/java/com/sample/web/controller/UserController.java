@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sample.dto.UserDetailDto;
 import com.sample.service.UserService;
@@ -72,5 +73,13 @@ public class UserController {
 	@GetMapping("/password-success")
 	public String passwordChangeSuccess() {
 		return "user/password-success";
+	}
+	
+	@GetMapping("/detail.json")
+	@ResponseBody
+	public UserDetailDto userDetail(@RequestParam("userId") String userId) {
+		UserDetailDto dto = userService.getUserDetail(userId);
+		
+		return dto;
 	}
 }

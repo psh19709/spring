@@ -5,14 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,11 +24,13 @@ import com.sample.exception.ApplicationException;
 import com.sample.service.PostService;
 import com.sample.web.login.LoginUser;
 import com.sample.web.login.LoginUserInfo;
+import com.sample.web.request.PostModifyForm;
 import com.sample.web.request.PostRegisterForm;
 import com.sample.web.view.FIleDownloadView;
 
 @Controller
 @RequestMapping("/post")
+@SessionAttributes({"modifyPost"})
 public class PostController {
 	
 	private final String directory = "c:/files";
@@ -114,6 +119,26 @@ public class PostController {
 		postService.insertComment(loginUserInfo.getId(), content, postNo);
 		
 		return "redirect:detail?postNo=" + postNo;
+	}
+	
+	@GetMapping("/modify")
+	public String modifyForm(@RequestParam("postNo") int postNo, Model model) {
+		PostDetailDto dto = postService.getPostDetail(postNo);
+		
+		PostModifyForm form = new PostModifyForm();
+		BeanUtils.copyProperties(dto, form);
+		
+		model.addAttribute("modifyPost", form);
+		
+		return "post/modify-form";
+	}
+	
+	@PostMapping("/modify")
+	public String modify(@ModelAttribute("modifyPost") PostModifyForm postModifyForm) {
+		System.out.println(postModifyForm);
+		postService.updatePost(postModifyForm);
+		
+		return "redirect:detail?postNo=" +postModifyForm.getNo();
 	}
 
 }

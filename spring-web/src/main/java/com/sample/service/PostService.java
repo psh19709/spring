@@ -23,6 +23,7 @@ import com.sample.vo.Comment;
 import com.sample.vo.Post;
 import com.sample.vo.Tag;
 import com.sample.vo.User;
+import com.sample.web.request.PostModifyForm;
 import com.sample.web.request.PostRegisterForm;
 
 @Service
@@ -138,6 +139,13 @@ public class PostService {
 			
 			post.setCommentCount(post.getCommentCount() + 1);
 			postMapper.updatePost(post);		
+		}
+
+		public void updatePost(PostModifyForm postModifyForm) {
+			Post post = new Post();
+			BeanUtils.copyProperties(postModifyForm, post);
+			
+			postMapper.updatePost(post);
 		}
 
 }
