@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMapper">
+	
+	<!-- 
+		SELECT 실행결과를 지정된 객체와 매핑시킨다.
+		* spring_user 테이블에 대한 select문 실행결과를 com.example.vo.User객체에 매핑시킨다.
+		* <id />태그와 <result />태그를 사용해서 테이블의 컬럼명(column)과 객체의 변수명(property)을 매핑시킨다.
+		* <id />태그의 기키 제약조건이 지정된 컬럼의 값을 객체의 멤버변수와 매핑시킨다.
+	 -->
+	<resultMap id="UserResultMap" type="User">
+		<id column="user_id" property="id"/>
+		<result column="user_password" property="password"/>
+		<result column="user_name" property="name"/>
+		<result column="user_email" property="email"/>
+		<result column="user_tel" property="tel"/>
+		<result column="user_photo" property="photo"/>
+		<result column="user_deleted" property="deleted"/>
+		<result column="user_created_date" property="createdDate"/>
+		<result column="user_updated_date" property="updatedDate"/>
+	</resultMap>
+	
+	<insert id="insertUser" parameterType="User">
+		insert into spring_users
+			(user_id, user_password, user_name, user_email, user_tel)
+		values
+			(#{id}, #{password}, #{name}, #{email}, #{tel})
+	</insert>
+	
+	<select id="getUsers" resultMap="UserResultMap">
+		select
+			*
+		from
+			spring_users
+		where
+			user_deleted = 'N'
+	</select>
+	
+	<select id="getUserById" parameterType="string" resultMap="UserResultMap">
+		select
+			*
+		from
+			spring_users
+		where
+			user_id = #{value}
+	</select>
+
+	<select id="getUserByEmail" parameterType="string" resultMap="UserResultMap">
+		select
+			*
+		from
+			spring_users
+		where
+			user_email = #{value}
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+		update 
+			spring_users
+		set
+			user_password = #{password},
+			user_email = #{email},
+			user_tel = #{tel},
+			user_deleted = #{deleted},
+			user_updated_date = sysdate
+		where
+			user_id = #{id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="string">
+		delete from
+			spring_users
+		where
+			user_id = #{value}
+	</delete>
+	<select id="getUserRoles" parameterType="string" resultType="string">
+		select
+			user_role_name
+		from
+			spring_user_roles
+		where
+			user_id = #{value}
+	</select>
+</mapper>

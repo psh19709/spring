@@ -1,0 +1,25 @@
+server:
+  port: 80                                                    # 톰캣서버의 port번호를 지정한다. 기본값은 8080이다. 0으로 지정하면 랜덤으로 지정된다.
+
+logging:
+  level:
+    root: info                                                # 애플리케이션의 기본 로그출력 레벨을 info로 지정한다.
+    '[com.example.mapper]': trace                             # com.example.mapper 패키지의 로그출력 레벨을 trace로 지정한다. 
+                                                              # mybatis가 실행되는 sql과 실행결과를 출력한다.
+
+spring:
+  datasource:                                                 # 커넥션 풀 설정을 지정한다.
+    url: jdbc.oracle:thin:@localhost:1521:xe
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: hr
+    password: zxcv1234
+  mvc:                                                        # spring mvc 관련 설정을 지정한다.
+    view:                                                     # 뷰 페이지 경로를 지정한다.
+      prefix: /WEB-INF/views/                                 # 뷰이름 앞에 붙는 경로를 지정한다.
+      suffix: .jsp                                            # 뷰이름 뒤에 붙는 확장자를 지정한다.
+mybatis:
+  mapper-locations:
+  - mybatis/mappers/*.xml                                     # mybatis의 mapper파일의 경로를 설정한다.
+  configuration:
+    jdbc-type-for-null: null                                  # null값이 허용되는 컬럼에 null값이 저장될 때 값의 타입을 null로 지정한다.
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl     # mybatis 실행 로그를 출력할 구현클래스 이름을 지정한다.
