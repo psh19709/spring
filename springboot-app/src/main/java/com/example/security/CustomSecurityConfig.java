@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -39,8 +38,8 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			// CSRF 토큰 사용여부 설정
-			.csrf()			// CSRF(사이트 간 요청위조) 방지를 위한 csrf 토큰 사용여부 설정, CsrfConfiguirer 객체를 반환한다.
-			.disable()		// csrf 토큰 사용을 비활성화한다.(기본값은 csrf 토큰을 사용한다.)
+			// .csrf()			// CSRF(사이트 간 요청위조) 방지를 위한 csrf 토큰 사용여부 설정, CsrfConfiguirer 객체를 반환한다.
+			// .disable()		// csrf 토큰 사용을 비활성화한다.(기본값은 csrf 토큰을 사용한다.)
 			// 1. 인가정책 설정 시작
 			.authorizeHttpRequests()		// 모든 요청에 대해서 인가정책을 적용하도록 한다. AuthorizeHttpRequestsConfigurer 객체를 반환한다.
 			.antMatchers("/", "/register", "/registered", "/login").permitAll()	// 제시된 요청은 접근권한 보유 여부를 확인하지 않고 접근을 허용한다.

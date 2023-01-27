@@ -20,6 +20,11 @@
 		<div class="col-12">
 			<p>아이디와 비밀번호를 입력하고 로그인 버튼을 클릭하세요</p>
 			<form id="form-register" class="border bg-light p-3" method="post" action="login">
+			<!-- 
+				csrf 토큰값을 히든필드로 추가한다.
+			 -->
+			
+			<sec:csrfInput />
 				<div class="mb-3">
 					<label class="form-label">아이디</label>
 					<input type="text" class="form-control form-control-sm" name="id" />
@@ -29,7 +34,7 @@
 					<input type="password" class="form-control form-control-sm" name="password" />
 				</div>
 				<div class="text-end">
-					<a href="/home" class="btn btn-secondary btn-sm">취소</a>
+					<a href="/" class="btn btn-secondary btn-sm">취소</a>
 					<button type="submit" class="btn btn-primary btn-sm">로그인</button>
 				</div>
 			</form>

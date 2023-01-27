@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.UserDetailDto;
+import com.example.exception.AlreadyRegisteredEmailException;
+import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.exception.ApplicationException;
 import com.example.mapper.UserMapper;
 import com.example.mapper.UserRoleMapper;
@@ -30,11 +32,11 @@ public class UserService {
 	public void registerUser(UserRegisterForm userRegisterForm) {
 		User savedUser = userMapper.getUserById(userRegisterForm.getId());
 		if (savedUser != null) {
-			throw new ApplicationException("["+userRegisterForm.getId()+"] 사용할 수 없는 아이디입니다.");
+			throw new AlreadyRegisteredUserIdException("["+userRegisterForm.getId()+"] 사용할 수 없는 아이디입니다.");
 		}
 		savedUser = userMapper.getUserByEmail(userRegisterForm.getEmail());
 		if (savedUser != null) {
-			throw new ApplicationException("["+userRegisterForm.getEmail()+"] 사용할 수 없는 이메일입니다.");
+			throw new AlreadyRegisteredEmailException("["+userRegisterForm.getEmail()+"] 사용할 수 없는 이메일입니다.");
 		}
 		
 		User user = new User();

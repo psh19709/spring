@@ -20,45 +20,51 @@
 		<div class="col-12">
 			<p>회원가입 정보를 입력하세요</p>
 			
-			<form id="form-register" class="border bg-light p-3" method="post" action="register">
+			<form:form modelAttribute="userRegisterForm" id="form-register" class="border bg-light p-3" method="post" action="register">
 				<div class="mb-3">
 					<label class="form-label">접속 권한</label>
 					<div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="roleName" value="ROLE_GUEST" checked>
+							<form:checkbox class="form-check-input" path="roleName" value="ROLE_GUEST" />
 							<label class="form-check-label">게스트</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="roleName" value="ROLE_USER" checked>
+							<form:checkbox class="form-check-input" path="roleName" value="ROLE_USER" />
 							<label class="form-check-label">사용자</label>
 						</div>
 					</div>
+					<form:errors path="roleName" cssClass="text-danger"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">아이디</label>
-					<input type="text" class="form-control form-control-sm" name="id" />
+					<form:input class="form-control form-control-sm" path="id" />
+					<form:errors path="id" cssClass="text-danger"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">비밀번호</label>
-					<input type="password" class="form-control form-control-sm" name="password" />
+					<form:password class="form-control form-control-sm" path="password" />
+					<form:errors path="password" cssClass="text-danger"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">이름</label>
-					<input type="text" class="form-control form-control-sm" name="name" />
+					<form:input class="form-control form-control-sm" path="name" />
+					<form:errors path="name" cssClass="text-danger"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">이메일</label>
-					<input type="text" class="form-control form-control-sm" name="email" />
+					<form:input class="form-control form-control-sm" path="email" />
+					<form:errors path="email" cssClass="text-danger"/>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">전화번호</label>
-					<input type="text" class="form-control form-control-sm" name="tel" />
+					<form:input class="form-control form-control-sm" path="tel" />
+					<form:errors path="tel" cssClass="text-danger"/>
 				</div>
 				<div class="text-end">
-					<a href="/home" class="btn btn-secondary btn-sm">취소</a>
+					<a href="/" class="btn btn-secondary btn-sm">취소</a>
 					<button type="submit" class="btn btn-primary btn-sm">가입</button>
 				</div>
-			</form>
+			</form:form>
 		</div>
 	</div>
 </div>

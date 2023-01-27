@@ -26,7 +26,7 @@
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li class="nav-item"><a class="nav-link ${menu eq 'user' ? 'active' : '' }" href="/user/info">내정보 보기</a></li>
 				</sec:authorize>
-				<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+				<li class="nav-item"><a class="nav-link" href="/logout" onclick="logout(event)">로그아웃</a></li>
 			</sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
 				<li class="nav-item"><a class="nav-link ${menu eq 'login' ? 'active' : '' }" href="/login">로그인</a></li>
@@ -35,3 +35,12 @@
 		</ul>
 	</div>
 </nav>
+<form id="form-logout" method="post" action="logout">
+	<sec:csrfInput />
+</form>
+<script>
+	function logout(event){
+		event.preventDefault();
+		document.getElementById("form-logout").submit();
+	}
+</script>
